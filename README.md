@@ -21,18 +21,21 @@ Of course, more complex parameters are possible and this will also work:
 
 ```
 gds.graph.create("graph", "User", 
-	{
-		"FOLLOWS": {
-			"type": "FOLLOWS",
-			"orientation": "NATURAL",
-			"aggregation": "SUM"
-		}
-	}
+    {
+        "FOLLOWS": {
+	    "type": "FOLLOWS",
+	    "orientation": "NATURAL",
+	    "aggregation": "SUM"
+        }
+    }
 )
 ```
 
 
 Please refer to https://neo4j.com/docs/graph-data-science/current/ to get a list of available procedures from the GDS.
+
+
+**WARNING** procedures that require a node as parameter doesn't work for now (shortest path and link prediction procedures for instance)
 
 
 ## Installation
@@ -54,9 +57,9 @@ AUTH = ("neo4j", "<YOUR_PASSWORD>")
 
 
 with GDS(URI, auth=AUTH) as gds:
-	gds.graph.create("graph", "*", "*")
-	# gds.
-	# etc...
+    gds.graph.create("graph", "*", "*")
+    # gds.
+    # etc...
 ```
 
 ### Return values
@@ -71,7 +74,7 @@ The return value is a [BoltStatementResult](https://neo4j.com/docs/api/python-dr
 ```python
 result = gds.pageRank.stream("graph")
 for record in result:
-	print(record.get("nodeId"))
+    print(record.get("nodeId"))
 ```
 
 
@@ -106,13 +109,13 @@ You can use the following structure to make sure the projected graph will be del
 
 ```python
 with GDS(URI, auth=AUTH) as gds:
-	gds.graph.create("graph", "*", "*")
-	try:
-		gds.louvain.write("graph", {"writeProperty": "louvain"})
-	except Exception as e:
-		print(e)
-	finally:
-		gds.drop("graph")
+    gds.graph.create("graph", "*", "*")
+    try:
+        gds.louvain.write("graph", {"writeProperty": "louvain"})
+    except Exception as e:
+        print(e)
+    finally:
+        gds.drop("graph")
 ```
 
 

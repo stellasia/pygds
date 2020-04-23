@@ -2,6 +2,9 @@ from .mixins import Neo4jRunner
 
 
 class GraphCreate(Neo4jRunner):
+    """Create a named projected graph through
+    natitve (__call__) or cypher projection.
+    """
 
     def __init__(self, driver, namespace):
         super().__init__()
@@ -30,6 +33,8 @@ class GraphCreate(Neo4jRunner):
 
 
 class Graph(Neo4jRunner):
+    """Class to manage named projected graph
+    """
 
     def __init__(self, driver, namespace):
         super().__init__()
@@ -39,6 +44,14 @@ class Graph(Neo4jRunner):
     @property
     def create(self, *args, **kwargs):
         return GraphCreate(self.driver, self.namespace, *args, **kwargs)
+
+    def list(self, name=""):
+        cypher = "CALL gds.graph.list($name)"
+        return self.run_cypher(cypher, {"name": name})
+
+    def exists(self, name=None):
+        cypher = "CALL gds.graph.exists($name)"
+        return self.run_cypher(cypher, {"name": name})
 
     def drop(self, graph_name):
         """Drop an existing projected graph

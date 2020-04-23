@@ -19,21 +19,14 @@ class Function(Neo4jRunner):
         return self.run_cypher(cypher, params, get_data=False).single().get("result")
 
 
-class EstimateMixin:
 
-    def estimate(self, graph_name, algo_config=None):
-        """Run algorithm and write results back into Neo4j
-        Returns some stats about algorithm execution
-        """
-        proc_name = self.procedure_name + ".estimate"
-        cypher = f"CALL {proc_name}($graph_name, $algo_config)"
-        return self.run_cypher(cypher, {
-            "graph_name": graph_name,
-            "algo_config": algo_config,
-        })
+class AlgoMixin(Neo4jRunner):
+    """Mixin class for executing cypher
 
-
-class AlgoMixin(EstimateMixin, Neo4jRunner):
+    Two execution modes:
+    - __call__
+    - estimate
+    """
 
     return_data = True
 
@@ -54,6 +47,17 @@ class AlgoMixin(EstimateMixin, Neo4jRunner):
             cypher,
             self._make_params(graph_name, algo_config), self.return_data
         )
+
+    def estimate(self, graph_name, algo_config=None):
+        """Run algorithm and write results back into Neo4j
+        Returns some stats about algorithm execution
+        """
+        proc_name = self.procedure_name + ".estimate"
+        cypher = f"CALL {proc_name}($graph_name, $algo_config)"
+        return self.run_cypher(cypher, {
+            "graph_name": graph_name,
+            "algo_config": algo_config,
+        })
 
     @property
     def procedure_name(self):
