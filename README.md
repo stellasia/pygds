@@ -3,23 +3,23 @@
 A python wrapper to call [Neo4j Graph Data Science](https://neo4j.com/docs/graph-data-science/current/) procedure from python using the Neo4j python driver
 
 
-### Overview
+## Overview
 
 The goal of this package is to be able to use the same syntax as Cypher. For instance, if you write:
 
-```
+```cypher
 CALL gds.graph.create("graph", "*", "*")
 ```
 
 The python equivalent would be:
 
-```
+```pythyon
 gds.graph.create("graph", "*", "*")
 ```
 
 Of course, more complex parameters are possible and this will also work:
 
-```
+```python
 gds.graph.create("graph", "User", 
     {
         "FOLLOWS": {
@@ -122,7 +122,7 @@ with GDS(URI, auth=AUTH) as gds:
 ## Known issues
 
 1. This package has not really been tested for functions yet.
-
+2. Shortest path procedures and link prediction functions does not work (like all other procedure expecting nodes as paramterrs)
 
 ## Developer
 
