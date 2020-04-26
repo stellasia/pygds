@@ -67,7 +67,7 @@ with GDS(URI, auth=AUTH) as gds:
 There are three cases:
 
 
-### Stream Procedures
+#### Stream Procedures
 
 The return value is a [BoltStatementResult](https://neo4j.com/docs/api/python-driver/1.7/results.html#neo4j.BoltStatementResult). It can be consumed with:
 
@@ -78,7 +78,7 @@ for record in result:
 ```
 
 
-### Functions
+#### Functions
 
 The returned value is a single floatting point number.
 
@@ -90,7 +90,7 @@ Example:
 ```
 
 
-### Write, stats and estimate
+#### Write, stats and estimate
 
 The return value is a dict containing all "yielded" fields from the procedure.
 
