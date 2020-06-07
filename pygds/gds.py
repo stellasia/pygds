@@ -3,6 +3,7 @@ from .graph import Graph
 from .algorithms import (
     AlgoWrite,
     AlgoStream,
+    AlgoMutate,
     AlgoStats,
     Function
 )
@@ -50,6 +51,10 @@ class ItemGetter:
     @property
     def stream(self, *args, **kwargs):
         return AlgoStream(self.driver, self.namespace)
+
+    @property
+    def mutate(self, *args, **kwargs):
+        return AlgoMutate(self.driver, self.namespace)
 
     @property
     def stats(self, *args, **kwargs):

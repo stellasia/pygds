@@ -28,7 +28,6 @@ class AlgoMixin(Neo4jRunner):
     - estimate
     """
 
-    return_data = True
 
     def __init__(self, driver, namespace):
         super().__init__()
@@ -45,7 +44,7 @@ class AlgoMixin(Neo4jRunner):
         cypher = f"CALL {self.procedure_name}($graph_name, $algo_config)"
         return self.run_cypher(
             cypher,
-            self._make_params(graph_name, algo_config), self.return_data
+            self._make_params(graph_name, algo_config)
         )
 
     def estimate(self, graph_name, algo_config=None):
@@ -54,10 +53,10 @@ class AlgoMixin(Neo4jRunner):
         """
         proc_name = self.procedure_name + ".estimate"
         cypher = f"CALL {proc_name}($graph_name, $algo_config)"
-        return self.run_cypher(cypher, {
-            "graph_name": graph_name,
-            "algo_config": algo_config,
-        })
+        return self.run_cypher(
+            cypher,
+            self._make_params(graph_name, algo_config)
+        )
 
     @property
     def procedure_name(self):
@@ -70,7 +69,10 @@ class AlgoWrite(AlgoMixin):
 
 class AlgoStream(AlgoMixin):
     suffix = "stream"
-    return_data = False
+
+
+class AlgoMutate(AlgoMixin):
+    suffix = "mutate"
 
 
 class AlgoStats(AlgoMixin):

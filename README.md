@@ -64,10 +64,6 @@ with GDS(URI, auth=AUTH) as gds:
 
 ### Return values
 
-There are three cases:
-
-
-#### Stream Procedures
 
 The return value is a [BoltStatementResult](https://neo4j.com/docs/api/python-driver/1.7/results.html#neo4j.BoltStatementResult). It can be consumed with:
 
@@ -77,22 +73,14 @@ for record in result:
     print(record.get("nodeId"))
 ```
 
-
-#### Functions
-
-The returned value is a single floatting point number.
-
-Example:
+or 
 
 ```python
->>> gds.alpha.similarity.euclideanDistance([1, 2], [0, 1])
-1.4142135623730951
+result = gds.pageRank.stream("graph")
+print(result.data())
 ```
 
-
-#### Write, stats and estimate
-
-The return value is a dict containing all "yielded" fields from the procedure.
+In case of functions, the result is a floating point number corresponding to the value of the function.
 
 
 ### Exceptions
