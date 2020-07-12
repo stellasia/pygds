@@ -60,3 +60,13 @@ class Graph(Neo4jRunner):
         return self.run_cypher(cypher, {
             "graph_name": graph_name,
         })
+
+    def export(self, graph_name, config):
+        cypher = "CALL gds.graph.export($graph_name, $config)"
+        return self.run_cypher(
+            cypher,
+            {
+                "graph_name": graph_name,
+                "config": config
+            }
+        )

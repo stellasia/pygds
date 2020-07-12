@@ -4,5 +4,5 @@ class Neo4jRunner:
     """
     def run_cypher(self, cypher, params):
         with self.driver.session() as s:
-            r = s.run(cypher, params)
-        return r
+            result = s.run(cypher, params)
+            return result.data()

@@ -19,7 +19,6 @@ class Function(Neo4jRunner):
         return self.run_cypher(cypher, params, get_data=False).single().get("result")
 
 
-
 class AlgoMixin(Neo4jRunner):
     """Mixin class for executing cypher
 
@@ -28,39 +27,57 @@ class AlgoMixin(Neo4jRunner):
     - estimate
     """
 
-
     def __init__(self, driver, namespace):
         super().__init__()
         self.namespace = namespace
         self.driver = driver
+        self.estimate = False
 
-    def _make_params(self, graph_name, algo_config=None):
-        return {
-            "graph_name": graph_name,
-            "algo_config": algo_config,
-        }
+    def _make_params(self, graph_name, config=None):
+        if graph_name:
+            return {
+                "graph_name": graph_name,
+                "config": config,
+            }
+        return {"config": config}
 
-    def __call__(self, graph_name, algo_config=None):
-        cypher = f"CALL {self.procedure_name}($graph_name, $algo_config)"
+    def _make_call(self, arg1, arg2=None):
+        """
+        :param arg1: graphName (str) or config (dict)
+        :param arg2: dict, mandatory is arg1 is not dict
+        """
+        if isinstance(arg1, dict):
+            graph_name = None
+            config = arg1
+            cypher = f"CALL {self.procedure_name}($config)"
+        else:
+            graph_name = arg1
+            config = arg2
+            cypher = f"CALL {self.procedure_name}($graph_name, $config)"
         return self.run_cypher(
             cypher,
-            self._make_params(graph_name, algo_config)
+            self._make_params(graph_name, config)
         )
 
-    def estimate(self, graph_name, algo_config=None):
+    def __call__(self, arg1, arg2=None):
+        """
+        """
+        self.estimate = False
+        return self._make_call(arg1, arg2)
+
+    def estimate(self, arg1, arg2=None):
         """Run algorithm and write results back into Neo4j
         Returns some stats about algorithm execution
         """
-        proc_name = self.procedure_name + ".estimate"
-        cypher = f"CALL {proc_name}($graph_name, $algo_config)"
-        return self.run_cypher(
-            cypher,
-            self._make_params(graph_name, algo_config)
-        )
+        self.estimate = True
+        self._make_call(arg1, arg2)
 
     @property
     def procedure_name(self):
-        return self.namespace + "." + self.suffix
+        pn = self.namespace + "." + self.suffix
+        if self.estimate:
+            return pn + ".estimate"
+        return pn
 
 
 class AlgoWrite(AlgoMixin):

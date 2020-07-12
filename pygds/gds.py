@@ -27,7 +27,8 @@ class ItemGetter:
 
     It means that:
     - gds.louvain => returns an ItemGetter instance wtih namespace `gds.louvain`
-    - gds.louvain() => returns an Function instance wtih namespace `gds.louvain` (from the __call__ method of ItemGetter)
+    - gds.louvain() => returns an Function instance wtih namespace `gds.louvain`
+        (from the __call__ method of ItemGetter)
     - gds.louvain.write => returns an AlgoWritter instance wtih namespace `gds.louvain`
 
     The actual execution of the algorithm is performed in the Algo class.

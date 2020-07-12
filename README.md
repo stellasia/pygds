@@ -2,6 +2,8 @@
 
 A python wrapper to call [Neo4j Graph Data Science](https://neo4j.com/docs/graph-data-science/current/) procedure from python using the Neo4j python driver
 
+**WARNING** this package is under development and has not beeen fully tested yet. Please report issues if you find any bug. Thanks.
+
 
 ## Overview
 
@@ -35,7 +37,7 @@ gds.graph.create("graph", "User",
 Please refer to https://neo4j.com/docs/graph-data-science/current/ to get a list of available procedures from the GDS.
 
 
-**WARNING** procedures that require a node as parameter doesn't work for now (shortest path and link prediction procedures for instance)
+**WARNING** procedures that require a node as parameter will not work for now (shortest path and link prediction procedures for instance)
 
 
 ## Installation
@@ -65,7 +67,7 @@ with GDS(URI, auth=AUTH) as gds:
 ### Return values
 
 
-The return value is a [BoltStatementResult](https://neo4j.com/docs/api/python-driver/1.7/results.html#neo4j.BoltStatementResult). It can be consumed with:
+The return value is a list of dictionnaries whose keys are the expected return values from the procedure. It can be consumed with:
 
 ```python
 result = gds.pageRank.stream("graph")
@@ -73,12 +75,6 @@ for record in result:
     print(record.get("nodeId"))
 ```
 
-or 
-
-```python
-result = gds.pageRank.stream("graph")
-print(result.data())
-```
 
 In case of functions, the result is a floating point number corresponding to the value of the function.
 
