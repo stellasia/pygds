@@ -16,7 +16,7 @@ class Function(Neo4jRunner):
         params = {str(k): a for k, a in enumerate(args)}
         params_names = params.keys()
         cypher = f"RETURN {func_name}($" + ", $".join(params_names) + ") as result"
-        return self.run_cypher(cypher, params, get_data=False).single().get("result")
+        return self.run_cypher(cypher, params).single().get("result")
 
 
 class AlgoMixin(Neo4jRunner):
