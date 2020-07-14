@@ -42,5 +42,5 @@ def teardown_module():
     with GDS(URI, auth=AUTH) as gds:
         try:
             gds.drop("graph")
-        except:
+        except ClientError:
             pass
