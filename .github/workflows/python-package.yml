@@ -25,7 +25,7 @@ jobs:
           NEO4JLABS_PLUGINS: '["graph-data-science"]'
           NEO4J_AUTH: neo4j/${{ secrets.NEO4J_PASSWORD }}
         options: >-
-          --health-cmd '/var/lib/neo4j/bin/neo4j status'
+          --health-cmd "/var/lib/neo4j/bin/neo4j status"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
