@@ -24,6 +24,9 @@ jobs:
           # install GDS at startup
           NEO4JLABS_PLUGINS: '["graph-data-science"]'
           NEO4J_AUTH: neo4j/${{ secrets.NEO4J_PASSWORD }}
+	  # NEO4J_dbms_connector_https_advertised__address: "localhost:7473"
+	  # NEO4J_dbms_connector_http_advertised__address: "localhost:7474"
+	  NEO4J_dbms_connector_bolt_advertised__address: "localhost:7687"
         ports:
           # Maps bolt port
           - 7687:7687
