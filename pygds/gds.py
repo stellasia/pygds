@@ -71,7 +71,7 @@ class GDS:
     # all procedures from the GDS are under the "gds" namespace
     namespace = "gds"
 
-    def __init__(self, uri, auth):
+    def __init__(self, uri, auth, **driver_kwargs):
         """
         The main public class for this package
 
@@ -83,7 +83,7 @@ class GDS:
         """
         self.uri = uri
         self.auth = auth
-        self.driver = GraphDatabase.driver(self.uri, auth=self.auth)
+        self.driver = GraphDatabase.driver(self.uri, auth=self.auth, **driver_kwargs)
 
     def __enter__(self):
         return self
