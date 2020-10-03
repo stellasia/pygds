@@ -20,6 +20,8 @@ jobs:
       neo4j:
         # Docker Hub image
         image: neo4j:latest
+        healthcheck:
+          test: perl -MIO::Socket::INET -e 'exit(! defined( IO::Socket::INET->new("localhost:7687")))'
         env:
           # install GDS at startup
           NEO4JLABS_PLUGINS: '["graph-data-science"]'
