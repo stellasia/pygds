@@ -14,29 +14,18 @@ jobs:
 
     runs-on: ubuntu-latest
     
-    # Service containers to run with `build job`
-    services:
-      # Label used to access the service container
-      neo4j:
-        # Docker Hub image
-        image: neo4j:latest
-        # options: --health-cmd "perl -MIO::Socket::INET -e 'exit(! defined( IO::Socket::INET->new("localhost:7687")))'" --health-interval 10s --health-timeout 5s --health-retries 5
-        env:
-          # install GDS at startup
-          NEO4JLABS_PLUGINS: '["graph-data-science"]'
-          NEO4J_AUTH: neo4j/${{ secrets.NEO4J_PASSWORD }}
-          # NEO4J_dbms_connector_bolt_advertised__address: localhost:7687
-        ports:
-          # Maps bolt port
-          - 7687:7687
-  
-    strategy:
+     strategy:
       matrix:
         python-version: [3.6, 3.7, 3.8]
         neo4j-version: [4.2, latest]
 
     steps:
     - uses: actions/checkout@v2
+    - name: Setup Neo4j container
+      uses: baptouuuu/setup-neo4j@v1.2.0
+      with:
+        tag: ${{matrix.neo4j-version}}
+	password: ${{ secrets.NEO4J_PASSWORD }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -50,11 +39,6 @@ jobs:
       run: |
         # Check Python syntax
         flake8 pygds
-    # - name: Install Neo4j
-    #   uses: baptouuuu/setup-neo4j@v1.2.0
-    #   with:
-    #       tag: ${{matrix.neo4j-version}}
-    # 	  password: ${{  secrets.NEO4J_PASSWORD }} 
     - name: Test with pytest
       env:
         NEO4J_URI: "bolt://${{ job.services.neo4j.host }}:${{ job.services.neo4j.ports[7687] }}"
