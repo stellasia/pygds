@@ -25,7 +25,7 @@ jobs:
       uses: baptouuuu/setup-neo4j@v1.2.0
       with:
         tag: ${{matrix.neo4j-version}}
-	password: ${{ secrets.NEO4J_PASSWORD }}
+        password: ${{ secrets.NEO4J_PASSWORD }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
