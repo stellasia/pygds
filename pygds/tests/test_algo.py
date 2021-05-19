@@ -6,7 +6,6 @@ from . import URI, AUTH
 
 
 def setup_module():
-    print(URI, AUTH)
     driver = GraphDatabase.driver(URI, auth=AUTH, encrypted=False)
     with driver.session() as session:
         session.run("""

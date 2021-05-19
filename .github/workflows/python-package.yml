@@ -22,7 +22,7 @@ jobs:
         image: neo4j:latest
         env:
           # install GDS at startup
-          NEO4JLABS_PLUGINS: '["graph-data-science"]'
+          # NEO4JLABS_PLUGINS: '["graph-data-science"]'
           NEO4J_AUTH: neo4j/${{ secrets.NEO4J_PASSWORD }}
           NEO4J_dbms_connector_bolt_listen__address: 0.0.0.0:7687
         ports:
