@@ -9,6 +9,5 @@ AUTH = (
 
 
 def test_gds_enter():
-    print(URI, AUTH)
     with GDS(URI, auth=AUTH):
         pass
