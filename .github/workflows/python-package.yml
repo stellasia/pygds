@@ -25,6 +25,12 @@ jobs:
           NEO4JLABS_PLUGINS: '["graph-data-science"]'
           NEO4J_AUTH: neo4j/${{ secrets.NEO4J_PASSWORD }}
           NEO4J_dbms_connector_bolt_listen__address: 0.0.0.0:7687
+        options: >-
+          --health-cmd "cypher-shell 'match (n) return count(n)'"
+          --health-timeout 10s
+          --health-retries 20
+          --health-interval 10s
+          --health-start-period 30s
         ports:
           # Maps bolt port
           - 7687:7687
