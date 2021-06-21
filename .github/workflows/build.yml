@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Python package
+name: Build
 
 on:
   push:
@@ -24,14 +24,25 @@ jobs:
           # install GDS at startup
           NEO4JLABS_PLUGINS: '["graph-data-science"]'
           NEO4J_AUTH: neo4j/${{ secrets.NEO4J_PASSWORD }}
+          NEO4J_USERNAME: neo4j
+          NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+          NEO4J_dbms_connector_bolt_enabled: "true"
+          NEO4J_dbms_security_auth__enabled: "true"
+          NEO4J_dbms_connector_bolt_listen__address: 0.0.0.0:7687
           NEO4J_dbms_connector_bolt_advertised__address: localhost:7687
+        options: >-
+          --health-cmd "cypher-shell 'match (n) return count(n)'"
+          --health-timeout 10s
+          --health-retries 20
+          --health-interval 10s
+          --health-start-period 30s
         ports:
           # Maps bolt port
           - 7687:7687
-  
+
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.6, 3.7, 3.8, 3.9]
 
     steps:
     - uses: actions/checkout@v2
@@ -50,7 +61,7 @@ jobs:
         flake8 pygds
     - name: Test with pytest
       env:
-        NEO4J_URI: "bolt://localhost:${{ job.services.postgres.ports[7687] }}"
+        NEO4J_URI: "bolt://localhost:${{ job.services.neo4j.ports[7687] }}"
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
       run: |
         pytest
