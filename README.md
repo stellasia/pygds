@@ -1,6 +1,10 @@
 # pygds
 
+# **IMPORTANT** this project is now deprecated due to the official support of a Python driver for the Graph Data Science Library by the Neo4j team, starting from GDS 2.0 (released April 2022).
+## You can find the repo here: https://github.com/neo4j/graph-data-science-client and the documentation here: https://neo4j.com/docs/graph-data-science/current/python-client/
+
 A python wrapper to call [Neo4j Graph Data Science](https://neo4j.com/docs/graph-data-science/current/) procedure from python using the Neo4j python driver
+
 
 **WARNING** this package is under development and has not beeen fully tested yet. Please report issues if you find any bug. Thanks.
 
